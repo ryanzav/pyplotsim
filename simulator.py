@@ -18,14 +18,14 @@ class Sim():
     def get_data(self):
         self.simulate()
         data = []
-        self.alive_count = 0
+        alive_count = 0
         for agent in self.agents:
             data += agent.data()
             if not agent.dead:
-                self.alive_count += 1
-        self.env['alive_count'] = self.alive_count
+                alive_count += 1
+        self.env['alive_count'] = alive_count
 
-        result = [self.alive_count == 0, self.cycle] + data
+        result = [self.env['alive_count'] == 0, self.cycle] + data
         return result
 
     def simulate(self):
@@ -35,13 +35,13 @@ class Sim():
                 self.env = agent.process(self.env)
 
 
-class SpecialAgent():
+class SpecialAgentEx():
     def __init__(self):
         self.position = 0
         self.dead = False
 
     def data(self):
-        return([self.position])
+        return [self.position]
 
     def process(self, env):
         self.position += random.choice([-1, 0, 1, 2])
@@ -51,13 +51,13 @@ class SpecialAgent():
         return env
 
 
-class Agent():
+class AgentEx():
     def __init__(self):
         self.position = 0
         self.dead = False
 
     def data(self):
-        return([self.position])
+        return [self.position]
 
     def process(self, env):
         self.position += random.choice([-1, 0, 1])
@@ -67,7 +67,7 @@ class Agent():
 
 
 def main():
-    _ = nplot.Session(Sim(20, SpecialAgent, Agent), 1, 10, title='booboo')
+    _ = nplot.Session(Sim(20, SpecialAgentEx, AgentEx), 1, 10, title='booboo')
 
 
 if __name__ == "__main__":
